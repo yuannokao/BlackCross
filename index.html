@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黑十餐酒館</title>
+<style>
+    body {
+        font-family: 'SimSun', 'Times New Roman', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('images/restaurant-background.jpg');  /* 初始背景图片 */
+        background-size: cover;  /* 背景图片覆盖整个页面 */
+        background-repeat: no-repeat;  /* 背景图片不重复 */
+        background-attachment: fixed;  /* 背景图片固定，滚动时不移动 */
+        background-color: #fff;  /* 背景颜色 */
+        color: #000000;  /* 页面文字颜色 */
+        transition: background-image 0.5s ease, background-color 0.5s ease, color 0.5s ease; /* 添加过渡效果 */
+    }
+
+    header {
+        background-color: rgba(170, 170, 170, 0.8);  /* 标题背景颜色 */
+        color: #000000;  /* 标题文字颜色 */
+        padding: 0.5em;
+        text-align: center;
+        position: relative;
+    }
+
+    header h1 {
+    margin: 1.1em 0 0;
+    font-size: 2.5em;
+    letter-spacing: 0.3em;
+    transition: color 0.5s ease, transform 0.5s ease; /* 添加标题文字颜色和位置的过渡效果 */
+    transform: translateX(0); /* 初始化标题的位置 */
+    will-change: transform; /* 提高性能 */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(100, 100, 100, 0); /* scroll-to-home 显示时透明度为 0 */
+    z-index: -1;
+    pointer-events: none;
+    transition: background-color 0.5s ease; /* 添加过渡效果 */
+}
+
+body.hidden::before {
+    background-color: rgba(0, 0, 0, 0.3); /* scroll-to-home 不可见时透明度为 0.3 */
+}
+
+.title-slide-left {
+    transform: translateX(-17%); /* 向左滑动 */
+}
+
+.title-slide-center {
+    transform: translateX(0); /* 回到中心 */
+}
+
+/* 設置段落的樣式 */
+.full-height-section {
+    height: 85vh; /* 設置高度為視口高度的 75% */
+    background-color: rgba(0, 0, 0, 0); /* 設置背景顏色為透明 */
+    width: 100%; /* 設置寬度為 100% */
+    margin: 0; /* 去除外邊距 */
+    padding: 0; /* 去除內邊距 */
+}
+
+.full-height-section {
+    position: relative; /* 使內部元素相對於此段落定位 */
+}
+
+h4 {
+    font-size: 20px; /* 字體大小設置為18像素 */
+}
+
+p {
+    font-size: 18px; /* 字體大小設置為18像素 */
+}
+
+.scroll-to-home {
+    position: absolute; /* 絕對定位 */
+    bottom: 20px; /* 距離底部的距離 */
+    left: 50%; /* 距離左側50% */
+    transform: translateX(-50%); /* 左右平移50%，以實現居中 */
+    padding: 10px 20px; /* 按鈕的內邊距 */
+    background-color: #333; /* 按鈕背景顏色 */
+    color: #fff; /* 按鈕文字顏色 */
+    border: none; /* 無邊框 */
+    border-radius: 5px; /* 邊角圓潤 */
+    cursor: pointer; /* 鼠標懸停時顯示指針 */
+    font-size: 16px; /* 字體大小 */
+}
+
+.scroll-to-home:hover {
+    background-color: #555; /* 懸停時按鈕背景顏色 */
+}
+
+
+#mainNav {
+    background-color: rgba(170, 170, 170, 0);  /* 初始透明度 0 */
+    transition: background-color 0.3s ease;  /* 添加背景颜色过渡效果 */
+}
+
+#mainNav.scrolled {
+    background-color: rgba(170, 170, 170, 0.8);  /* 滚动后的透明度 0.8 */
+}
+
+#mainNav.top {
+    background-color: rgba(170, 170, 170, 0);  /* 顶部时的透明度 0 */
+}
+
+
+#mainNav {
+    display: none;
+    justify-content: center;  /* 水平居中對齊 */
+    align-items: center;  /* 垂直居中對齊 */
+    background-color: rgba(100, 100, 100, 0);  /* 導航欄背景顏色 */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+#mainNav a {
+    color: #000000;  /* 導航欄文字顏色 */
+    padding: 1em;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#mainNav a:hover {
+    background-color: rgba(180, 180, 180, 0.5);  /* 導航欄文字懸停時背景顏色 */
+}
+
+#mainNav.transparent {
+    background-color: rgba(100, 100, 100, 0.8);  /* 修改透明度 */
+}
+
+
+    .container {
+        padding: 2em;
+        background-color: rgba(170, 170, 170, 0.8);  /* 内容容器背景颜色 */
+        margin: 2em auto;
+        max-width: 800px;
+        box-shadow: 0 0 10px rgba(0,0,0,0);  /* 内容容器阴影颜色 */
+        margin-top: 4em;
+    }
+.container {
+    margin-top: 2em;  /* 調整 container 上方的間距 */
+    padding: 1em;     /* 調整 container 內部的間距 */
+}
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    .menu-item, .job-opening, .events-ev{
+        border: 1px solid #aaa;  /* 菜单项目及职缺边框颜色 */
+        padding: 1em;
+        margin: 1em 0;
+        background-color: rgba(225, 225, 225, 0);  /* 菜单项目及职缺背景颜色 */
+    }
+
+    .section {
+        display: none;
+    }
+
+    .menu-buttons {
+        text-align: center;
+        margin-bottom: 1em;
+    }
+
+    .menu-buttons button {
+        font-family: 'SimSun', 'Times New Roman', sans-serif;
+        font-size: 16px;
+        background-color: rgba(225, 225, 225, 0);  /* 菜单按钮背景颜色 */
+        color: #000000;  /* 菜单按钮文字颜色 */
+        border: none;
+        padding: 1em;
+        cursor: pointer;
+        margin: 0.5em;
+    }
+
+    .menu-buttons button:hover {
+        background-color: rgba(225, 225, 225, 0.3);  /* 菜单按钮背景颜色 */
+    }
+
+    .menu-buttons button.active {
+        background-color: rgba(225, 225, 225, 0.5);  /* 活动菜单按钮背景颜色 */
+        color: #000000;  /* 活动菜单按钮文字颜色 */
+    }
+
+    footer {
+        text-align: center;
+        padding: 1em;
+        background-color: #000000;  /* 页脚背景颜色 */
+        color: #fff;  /* 页脚文字颜色 */
+    }
+
+    .carousel {
+        position: relative;
+        text-align: center;
+        color: black;
+        overflow: hidden; /* 确保图片不会超出轮播容器 */
+        max-height: 700px; /* 提高轮播容器的最大高度 */
+    }
+
+    .carousel img {
+        width: 100%; /* 图片宽度填满轮播容器 */
+        height: auto; /* 高度自动调整，以保持比例 */
+        object-fit: cover; /* 保持图片原始比例，同时填满轮播容器 */
+        object-position: center; /* 图片居中 */
+    }
+
+    .carousel-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.5);  /* 轮播文字背景颜色 */
+        padding: 1em;
+        color: #000000;  /* 轮播文字颜色 */
+    }
+
+    .carousel-controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .carousel-control {
+        background-color: rgba(255, 255, 255, 0.2);  /* 轮播控制按钮背景颜色 */
+        color: #000000;  /* 轮播控制按钮文字颜色 */
+        border: none;
+        padding: 0.5em;  /* 减少轮播控制按钮的边框宽度 */
+        cursor: pointer;
+    }
+
+    .carousel-control:hover {
+        background-color: rgba(255, 255, 255, 0.5);  /* 轮播控制按钮悬停时背景颜色 */
+    }
+
+    button[data-category="cocktail"],
+    button[data-category="beer"],
+    button[data-category="shisha"] {
+        display: none;
+    }
+
+    a {
+        text-decoration: none; 
+        font-weight: normal; 
+        color: inherit; 
+    }
+
+    a:hover {
+        font-weight: bold; /* 游标移至文字时变为粗体 */
+    }
+
+.scroll-to-home {
+    background-color: #999999; /* 按鈕背景色 */
+    border: none; /* 去掉邊框 */
+    color: black; /* 按鈕文字顏色 */
+    padding: 15px 32px; /* 按鈕內邊距 */
+    text-align: center; /* 文字居中對齊 */
+    text-decoration: none; /* 去掉文字下劃線 */
+    display: inline-block; /* 使按鈕行內顯示 */
+    font-size: 24px; /* 文字大小 */
+    font-family: 'SimSun', sans-serif;
+    margin: 4px 2px; /* 外邊距 */
+    cursor: pointer; /* 鼠標懸停顯示為手形 */
+    border-radius: 2px; /* 按鈕圓角 */
+    opacity: 0.7;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 背景色和按鈕縮放效果過渡 */
+}
+
+.scroll-to-home:hover {
+    background-color: raga(170, 170, 170, 0); /* 滑鼠懸停時背景色 */
+}
+
+.scroll-to-home:active {
+    transform: scale(0.95); /* 點擊時縮小效果 */
+}
+
+</style>
+
+
+
+<script>
+    let currentSlide = 0;  // 當前顯示的幻燈片索引
+    const slides = [
+        {image: 'images/image1.jpg', text: '歡迎光臨黑十餐酒館，這裡是美食與美酒的天堂。我們期待您的光臨與品味。'},
+        {image: 'images/image2.jpg', text: '餐酒館是一個結合美食與美酒的理想場所。無論是與朋友聚會還是舉辦特別活動，我們都能為您提供最好的服務和體驗。'},
+        {image: 'images/image3.jpg', text: '我們經常舉辦現場音樂演出、DJ表演和節日活動。歡迎隨時關注我們的最新動態，參加您感興趣的活動。'},
+        {image: 'images/image4.jpg', text: '探索我們為各個季節、節日精心設計的菜單，享受多樣的調酒選擇。'}
+    ];
+
+    // 顯示指定索引的幻燈片
+    function showSlide(index) {
+        const carouselImage = document.getElementById('carouselImage');
+        const carouselText = document.getElementById('carouselText');
+        currentSlide = index;
+        if (currentSlide >= slides.length) currentSlide = 0;  // 如果索引超過幻燈片數量，顯示第一張
+        if (currentSlide < 0) currentSlide = slides.length - 1;  // 如果索引小於0，顯示最後一張
+        carouselImage.src = slides[currentSlide].image;
+        carouselText.textContent = slides[currentSlide].text;
+    }
+let isNavVisible = false; // 用來追踪導航欄的顯示狀態
+
+document.addEventListener('DOMContentLoaded', () => {
+    const homeButton = document.querySelector('.scroll-to-home');
+    const nav = document.getElementById('mainNav');
+
+    homeButton.addEventListener('click', () => {
+        if (!isNavVisible) {
+            nav.style.display = 'flex'; // 顯示導航欄
+            isNavVisible = true; // 更新狀態
+        }
+        showSection('home'); // 顯示首頁內容
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const scrollToHome = document.querySelector('.scroll-to-home');
+
+    // 创建一个 IntersectionObserver 实例
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 如果 scroll-to-home 可见，移除 hidden 类
+                document.body.classList.remove('hidden');
+            } else {
+                // 如果 scroll-to-home 不可见，添加 hidden 类
+                document.body.classList.add('hidden');
+            }
+        });
+    }, { threshold: 0.1 }); // 当 10% 的 scroll-to-home 可见时触发回调
+
+    // 开始观察 scroll-to-home 元素
+    observer.observe(scrollToHome);
+});
+document.addEventListener('DOMContentLoaded', function() {
+    var nav = document.querySelector('#mainNav');
+
+    window.addEventListener('scroll', function() {
+        if (window.scrollY === 0) {
+            nav.classList.remove('scrolled');
+            nav.classList.add('top');
+        } else {
+            nav.classList.remove('top');
+            nav.classList.add('scrolled');
+        }
+    });
+});
+
+
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+
+    // 顯示指定的區域（如主頁、菜單等）
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.style.display = 'none';  // 隱藏所有區域
+        });
+        document.getElementById(sectionId).style.display = 'block';  // 顯示指定區域
+        updateTitleAlignment();  // 調用函數來更新標題對齊
+    }
+
+    // 顯示指定的菜單類別
+    function showMenuCategory(category) {
+        const categories = document.querySelectorAll('.menu-category');
+        categories.forEach(cat => {
+            if (cat.id === category) {
+                cat.style.display = 'block';  // 顯示選中的菜單類別
+            } else {
+                cat.style.display = 'none';  // 隱藏其他菜單類別
+            }
+        });
+
+        const buttons = document.querySelectorAll('.menu-buttons button');
+        buttons.forEach(button => {
+            if (button.dataset.category === category) {
+                button.classList.add('active');  // 為選中的按鈕添加活躍樣式
+            } else {
+                button.classList.remove('active');  // 移除非選中按鈕的活躍樣式
+            }
+        });
+    }
+function updateTitleAlignment() {
+    const title = document.querySelector("header h1");
+    const homeSection = document.getElementById('home');
+    const fullHeightSection = document.querySelector('.full-height-section'); // 選取全高段落
+
+    // 先移除所有的動畫類
+    title.classList.remove('title-slide-left', 'title-slide-center');
+
+    if (homeSection.style.display === 'block') {
+        title.classList.add('title-slide-left');  // 在主頁顯示時，標題向左滑動
+        fullHeightSection.style.display = 'block'; // 顯示全高段落
+    } else {
+        title.classList.add('title-slide-center');  // 在其他頁面顯示時，標題居中
+        fullHeightSection.style.display = 'none'; // 隱藏全高段落
+    }
+}
+
+
+    // 根據模式變更標題和顏色
+    function changeTitleAndColors() {
+        const title = document.querySelector("header h1");
+        const body = document.body;
+        const header = document.querySelector('header');
+        const container = document.querySelector('.container');
+        const navLinks = document.querySelectorAll('nav a');
+        const drinksButton = document.querySelector('button[data-category="drinks"]');
+        const chineseButton = document.querySelector('button[data-category="chinese"]');
+        const mocktailButton = document.querySelector('button[data-category="mocktail"]');
+        const cocktailButton = document.querySelector('button[data-category="cocktail"]');
+        const beerButton = document.querySelector('button[data-category="beer"]');
+        const shishaButton = document.querySelector('button[data-category="shisha"]');
+        const italianButton = document.querySelector('button[data-category="italian"]');
+        const bbqButton = document.querySelector('button[data-category="bbq"]');
+        const americanButton = document.querySelector('button[data-category="american"]');
+
+        if (title.textContent === "黑十餐酒館") {
+            title.textContent = "黑十酒吧";
+            body.style.backgroundColor = "#330033";
+            body.style.color = "#eeeeee";
+            title.style.color = "#eeeeee";
+            body.style.backgroundImage = "url('images/bar-background.jpg')";  // 更換為酒吧模式的背景圖片
+            
+            // 更新標題和內容容器的背景顏色
+            header.style.backgroundColor = "rgba(0, 0, 0, 0.8)";  // 設置標題背景顏色
+            container.style.backgroundColor = "rgba(0, 0, 0, 0.8)";  // 設置內容容器背景顏色
+
+            // 更新導航欄和按鈕的顏色
+            navLinks.forEach(link => {
+                link.style.color = "#eeeeee";  // 設置導航欄文字顏色
+            });
+
+            // 更新按鈕的顏色和顯示狀態
+            drinksButton.style.display = "none";
+            chineseButton.style.display = "none";
+            mocktailButton.style.display = "none";
+            cocktailButton.style.display = "inline-block";
+            beerButton.style.display = "inline-block";
+            shishaButton.style.display = "inline-block";
+
+            cocktailButton.style.color = "#eeeeee";
+            beerButton.style.color = "#eeeeee"; 
+            shishaButton.style.color = "#eeeeee";
+            italianButton.style.color = "#eeeeee";
+            bbqButton.style.color = "#eeeeee";
+            americanButton.style.color = "#eeeeee";
+
+        } else {
+            title.textContent = "黑十餐酒館";
+            body.style.backgroundColor = "#fff";
+            body.style.color = "#000000";
+            title.style.color = "#000000";
+            body.style.backgroundImage = "url('images/restaurant-background.jpg')";
+            
+            // 更新標題和內容容器的背景顏色
+            header.style.backgroundColor = "rgba(170, 170, 170, 0.8)";  // 設置標題背景顏色
+            container.style.backgroundColor = "rgba(170, 170, 170, 0.8)";  // 設置內容容器背景顏色
+
+            // 更新導航欄和按鈕的顏色
+            navLinks.forEach(link => {
+                link.style.color = "#000000";  // 設置導航欄文字顏色
+            });
+
+            // 更新按鈕的顏色和顯示狀態
+            drinksButton.style.display = "inline-block";
+            chineseButton.style.display = "inline-block";
+            mocktailButton.style.display = "inline-block";
+            cocktailButton.style.display = "none";
+            beerButton.style.display = "none";
+            shishaButton.style.display = "none";
+
+            italianButton.style.color = "#000000";
+            bbqButton.style.color = "#000000";
+            americanButton.style.color = "#000000";
+        }
+    }
+
+    // 當文檔加載完成後執行初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlide(0);  // 默認顯示第一張照片
+        showSection('home');  // 默認顯示主頁
+        showMenuCategory('drinks');  // 默認顯示酒類
+
+        // 初始標題狀態設置
+        updateTitleAlignment();
+    });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 確保 DOM 已經加載完成
+
+    const scrollToHomeButton = document.querySelector('.scroll-to-home');
+    const homeSection = document.getElementById('home');
+
+    scrollToHomeButton.addEventListener('click', () => {
+        homeSection.scrollIntoView({ behavior: 'smooth' }); // 平滑滾動到首頁段落
+    });
+
+    // 其他初始化代碼
+    showSlide(0);  // 默認顯示第一張照片
+    showSection('home');  // 默認顯示主頁
+    showMenuCategory('drinks');  // 默認顯示酒類
+
+    // 初始标题状态设置
+    updateTitleAlignment();
+});
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // 使滾動平滑
+    });
+}
+
+
+    </script>
+ </head>
+<body>
+    <nav id="mainNav">
+        <a onclick="showSection('home'); scrollToTop();">主頁</a>
+        <a onclick="showSection('about'); scrollToTop();">關於我們</a>
+        <a onclick="showSection('events'); scrollToTop();">活動</a>
+        <a onclick="showSection('menu'); scrollToTop();">菜單</a>
+        <a onclick="showSection('careers'); scrollToTop();">招募人才</a>
+    </nav>
+    <header>
+        <h1 onclick="changeTitleAndColors()">黑十餐酒館</h1>
+    </header>
+<!-- 在適當的位置添加這個段落 -->
+<div class="full-height-section">
+<button class="scroll-to-home">開始</button>
+</div>
+
+    <div class="container">
+        <div id="home" class="section carousel">
+            <img id="carouselImage" src="image1.jpg" alt="黑十餐酒館">
+            <div class="carousel-text" id="carouselText">歡迎光臨黑十餐酒館，這裡是美食與美酒的天堂。我們期待您的光臨與品味。</div>
+            <div class="carousel-controls">
+                <button class="carousel-control" onclick="showSlide(currentSlide - 1)">&#9664;</button>
+                <button class="carousel-control" onclick="showSlide(currentSlide + 1)">&#9654;</button>
+            </div>
+        </div>
+        <div id="about" class="section">
+            <br><h2>關於我們</h2><br>
+            <p>歡迎來到<strong>黑十</strong>，一個將精緻料理與美酒完美融合的美食天堂。我們希望為每一位顧客帶來難忘的餐飲體驗。我們的名字象徵著經典與現代的碰撞，期待為每位來訪者提供一場感官盛宴。</p><br><br>
+
+            <br><h2>餐飲理念</h2><br>
+            <p>在<strong>黑十</strong>，我們堅持使用最新鮮的食材，注重每一道菜餚的質量與口感。我們的廚師團隊以創新精神著稱，他們將傳統菜餚與現代風味相結合，創造出令人驚艷的美味。我們的調酒師們也精心設計出各種精艷的美味特調，讓每一口都充滿驚喜。</p><br><br>
+
+            <br><h2>環境與氛圍</h2><br>
+            <p>走進<strong>黑十</strong>，您會被星空般的燈光和典雅的裝潢所吸引，營造出一個既適合浪漫晚餐又適合朋友聚會的理想空間。我們特別注重音樂的選擇，在週末會有歌手和琴師為各位演出在夜晚更是有DJ表演，讓每個夜晚都充滿愉悅的氛圍。</p><br><br>
+
+            <br><h2>聯絡我們</h2><br>
+            <p><strong>地址</strong>: 台北市南京東路二段七號一樓<br>
+            <strong>營業時間</strong>: 週二至週日 18:00 - 03:00<br>
+            <strong>聯繫電話</strong>: (02) 2523 9880<br>
+            <strong>線上預約</strong>: <a href="https://inline.app/booking/%E9%BB%91%E5%8D%81%E9%A4%90%E9%85%92%E9%A4%A8inline%E8%A8%82%E4%BD%8D?fbclid=IwY2xjawEq5YVleHRuA2FlbQIxMAABHQtueQgvyCmVFlyMlCQFP9HLL6ZoXwYhHVVXDsOo-5wV_IIjDKrLXC3vDA_aem_xhWKhT4vOovCQ01Yi4BUKQ">點擊這裡預約</a></p>
+
+            <p><strong>關注我們</strong>:<br>
+            <a href="https://www.facebook.com/Hesi.bistro">Facebook</a> | <a href="https://www.instagram.com/blackcrossbistro/">Instagram</a> | <a href="#">Line</a>
+            </p>
+
+        </div>
+        <div id="events" class="section">
+            <h2>活動</h2>
+            <p><strong>黑十餐酒館</strong>活動<br>萬聖節、棒球12強小組賽、聖誕節、2025跨年活動等正在計畫中<br>請持續關注我們的網站或<strong>黑十餐酒館</strong>官方IG及FB<br>有任何企劃將會盡速公布<br>敬請期待。</p>
+            <div class="events-ev">
+                <h3>萬聖節</h2>
+                <p>萬聖節</p>
+            </div>
+            <div class="events-ev">
+                <h3>棒球12強小組賽</h2>
+                <p>棒球12強小組賽</p>
+            </div>
+            <div class="events-ev">
+                <h3>聖誕節</h2>
+                <p>聖誕節</p>
+            </div>
+            <div class="events-ev">
+                <h3>2025跨年</h2>
+                <p>2025跨年</p>
+            </div>
+        </div>
+        <div id="menu" class="section">
+            <h2>季節推薦菜色</h2>
+            <div class="menu-buttons">
+                <button data-category="mocktail" onclick="showMenuCategory('mocktail')">無酒精特調</button>
+                <button data-category="drinks" onclick="showMenuCategory('drinks')">酒類</button>
+                <button data-category="cocktail" onclick="showMenuCategory('cocktail')">調酒</button>
+                <button data-category="beer" onclick="showMenuCategory('beer')">啤酒</button>
+                <button data-category="shisha" onclick="showMenuCategory('shisha')">SHISHA</button>
+                <button data-category="chinese" onclick="showMenuCategory('chinese')">中式料理</button>
+                <button data-category="italian" onclick="showMenuCategory('italian')">義式料理</button>
+                <button data-category="bbq" onclick="showMenuCategory('bbq')">燒烤類</button>
+                <button data-category="american" onclick="showMenuCategory('american')">炸物及美式料理</button>
+            </div>
+            <div id="mocktail" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>檸香翠玉</h4>
+                    <p>綠茶 檸檬皮 (不會酸苦)</p>
+                </div>
+                <div class="menu-item">
+                    <h4>巧克力奶昔</h4>
+                    <p>巧克力 鮮奶 鮮奶油</p>
+                </div>
+                <div class="menu-item">
+                    <h4>葡優沙沙</h4>
+                    <p>葡萄果露 無糖優格 鮮奶</p>
+                </div>
+                <div class="menu-item">
+                    <h4>O.M.G</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+            <div id="drinks" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>黑十</h4>
+                    <p>高粱 艾碧斯 香草</p>
+                </div>
+                <div class="menu-item">
+                    <h4>花嫁</h4>
+                    <p>萊姆酒 花香</p>
+                </div>
+                <div class="menu-item">
+                    <h4>天知曉</h4>
+                    <p>龍舌蘭 果香 木質調 煙燻</p>
+                </div>
+                <div class="menu-item">
+                    <h4>歸巢</h4>
+                    <p>泥煤 雪莉酒 葡萄 苦味 煙燻</p>
+                </div>
+                <div class="menu-item">
+                    <h4>酒月</h4>
+                    <p>伯爵琴酒 黑莓 木質調 牛奶</p>
+                </div>
+                <div class="menu-item">
+                    <h4>拉希雅之吻</h4>
+                    <p>萊姆酒 楱果 牛奶</p>
+                </div>
+                <div class="menu-item">
+                    <h4>紙月光</h4>
+                    <p>琴酒 熱帶水果 煙燻</p>
+                </div>
+                <div class="menu-item">
+                    <h4>杏泡</h4>
+                    <p>伏特加 果香 茶香 花香</p>
+                </div>
+                <div class="menu-item">
+                    <h4>菲蕾</h4>
+                    <p>伏特加 熱帶水果</p>
+                </div>
+                <div class="menu-item">
+                    <h4>旅人</h4>
+                    <p>龍舌蘭 百香果</p>
+                </div>
+            </div>
+            <div id="cocktail" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>黑十</h4>
+                    <p>高粱 艾碧斯 香草</p>
+                </div>
+                <div class="menu-item">
+                    <h4>花嫁</h4>
+                    <p>萊姆酒 花香</p>
+                </div>
+                <div class="menu-item">
+                    <h4>天知曉</h4>
+                    <p>龍舌蘭 果香 木質調 煙燻</p>
+                </div>
+                <div class="menu-item">
+                    <h4>歸巢</h4>
+                    <p>泥煤 雪莉酒 葡萄 苦味 煙燻</p>
+                </div>
+                <div class="menu-item">
+                    <h4>酒月</h4>
+                    <p>伯爵琴酒 黑莓 木質調 牛奶</p>
+                </div>
+                <div class="menu-item">
+                    <h4>拉希雅之吻</h4>
+                    <p>萊姆酒 楱果 牛奶</p>
+                </div>
+                <div class="menu-item">
+                    <h4>紙月光</h4>
+                    <p>琴酒 熱帶水果 煙燻</p>
+                </div>
+                <div class="menu-item">
+                    <h4>杏泡</h4>
+                    <p>伏特加 果香 茶香 花香</p>
+                </div>
+                <div class="menu-item">
+                    <h4>菲蕾</h4>
+                    <p>伏特加 熱帶水果</p>
+                </div>
+                <div class="menu-item">
+                    <h4>旅人</h4>
+                    <p>龍舌蘭 百香果</p>
+                </div>
+            </div>
+            <div id="beer" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>伯樂精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>囍精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>黑嚕嚕精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>極惡精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>極良精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>鍾馗精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>魑魅精釀啤酒</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+            <div id="shisha" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>綜合莓果</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>綜合瓜果</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>伯爵茶</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>葡萄</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>芒果</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+
+            <div id="chinese" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>鳳梨蝦球</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>醉雞</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>宮保中卷</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>蒜苗松阪豬</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>三杯中卷</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+            <div id="italian" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>黑十海鮮總匯披薩</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>經典蒜香白酒蛤蠣義大利麵</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>北海道蟹黃干貝義大利麵</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>蘇格蘭香濃巧克力燉飯</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>北冰洋深海鮭魚披薩</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>西班牙伊比利火腿披薩</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+            <div id="bbq" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>明太子櫛瓜</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>泰式檸檬魚</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>泰式檸檬蝦</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>日本鮮生蠔</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>現拷透抽</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+            <div id="american" class="menu-category">
+
+                <div class="menu-item">
+                    <h4>黑十炸物摩天輪</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>轟炸雞</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>帶皮薯塊</h4>
+                    <p>內容</p>
+                </div>
+                <div class="menu-item">
+                    <h4>馬德里伊比利烤肉腸</h4>
+                    <p>內容</p>
+                </div>
+            </div>
+        </div>
+        <div id="careers" class="section">
+            <h2>招募人才</h2>
+            <div class="job-opening">
+                <h3>外場服務生</h3>
+                <p>服務客人點餐、送餐酒、結帳、維持環境整潔</p>
+            </div>
+            <div class="job-opening">
+                <h3>廚房助手</h3>
+                <p>洗碗、備料</p>
+            </div>
+            <div class="job-opening">
+                <h3>吧台調酒師</h3>
+                <p>吧台調酒(限有經驗者)</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2024 黑十集團. 版權所有.</p>
+    </footer>
+</body>
+</html>
