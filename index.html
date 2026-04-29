@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" href="/favicon.png">
 <!-- Google tag (gtag.js) -->
   
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8T2M2BWW5T"></script>
@@ -298,7 +299,7 @@ p {
 }
 
 .scroll-to-home:hover {
-    background-color: raga(170, 170, 170, 0); /* 滑鼠懸停時背景色 */
+    background-color: rgba(170, 170, 170, 0); /* 滑鼠懸停時背景色 */
 }
 
 .scroll-to-home:active {
@@ -376,16 +377,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
-function showSection(sectionId) {
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.style.display = 'none';
-    });
-    document.getElementById(sectionId).style.display = 'block';
-}
-
-
     // 顯示指定的區域（如主頁、菜單等）
     function showSection(sectionId) {
         const sections = document.querySelectorAll('.section');
@@ -462,19 +453,9 @@ function updateTitleAlignment() {
             });
 
             // 更新按鈕的顏色和顯示狀態
-            drinksButton.style.display = "none";
+            drinksButton.style.color = "#eeeeee";
             chineseButton.style.display = "none";
-            mocktailButton.style.display = "none";
-            cocktailButton.style.display = "inline-block";
-            beerButton.style.display = "inline-block";
-            shishaButton.style.display = "inline-block";
-
-            cocktailButton.style.color = "#eeeeee";
-            beerButton.style.color = "#eeeeee"; 
-            shishaButton.style.color = "#eeeeee";
-            italianButton.style.color = "#eeeeee";
             bbqButton.style.color = "#eeeeee";
-            americanButton.style.color = "#eeeeee";
 
         } else {
             title.textContent = "黑十餐酒館";
@@ -595,15 +576,15 @@ function scrollToTop() {
             <h2>活動</h2>
             <p><strong>黑十餐酒館</strong>活動<br>2026活動等正在計畫中<br>請持續關注我們的網站或<strong>黑十餐酒館</strong>官方IG及FB<br>有任何企劃將會盡速公布<br>敬請期待。</p>
             <div class="events-ev">
-                <h3>萬聖節</h2>
+                <h3>萬聖節</h3>
                 <p>萬聖節</p>
             </div>
             <div class="events-ev">
-                <h3>聖誕節</h2>
+                <h3>聖誕節</h3>
                 <p>聖誕節</p>
             </div>
             <div class="events-ev">
-                <h3>2026跨年</h2>
+                <h3>2026跨年</h3>
                 <p>2026跨年</p>
             </div>
         </div>
